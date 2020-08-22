@@ -7,7 +7,9 @@ kubectl create deployment redis-ds --image=redis  --dry-run -o yaml > redis-ds.y
 
 得到如下文件
 
-apiVersion: apps/v1
+
+
+`apiVersion: apps/v1
 kind: Deployment
 metadata:
   creationTimestamp: null
@@ -26,11 +28,14 @@ spec:
       labels:
         app: redis-ds
     spec:
-      containers:
-      - image: redis
-        name: redis
-        resources: {}
-status: {}
+      containers:`
+
+​          `- image: redis
+​         name: redis
+​         resources: {}
+status: {}`
+
+
 
 
 
