@@ -62,8 +62,5 @@ daemonset.apps/redis-ds created
 [root@node-×××××× ~]# kubectl get daemonset
 NAME          DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
 redis-ds          4         4         0       4          0          <none>          20s
-wavefront-1596521047-collector          7         7         5       7          5          <none>          15d
-........」
-- - - - - - - - - - - - - - -」
-—————————
-none-persistent-redis 
+
+
