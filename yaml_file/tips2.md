@@ -1,0 +1,31 @@
+kubectl run  的时候缺省是 1个 deployment， 但是你就像得到1个 Pod怎么弄
+
+如 kubectl run -it nginx2 --image=nginx -n front-end sh 
+kubectl run --generator=run-pod/v1 nginx3 --image=nginx    --dry-run -o yaml > pod11.yaml
+
+[root@node-10-120-13-236 ~]# cat pod11.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx3
+  name: nginx3
+spec:
+  containers:
+  - image: nginx
+    name: nginx3
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+[root@node- ~]#  kubectl apply -f pod11.yaml
+pod/nginx3 created
+[root@nod  ~]#                              
+
+可以 看见  这里
+  containers:
+  - image: nginx
+    name: nginx3
+    
+跟我们学到的 是不同的，但 实际运行的 再get 出来就是 这个效果， 直接写成这样的也毫无问题
