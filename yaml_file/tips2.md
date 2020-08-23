@@ -29,3 +29,4 @@ pod/nginx3 created
     name: nginx3
     
 跟我们学到的 是不同的，但 实际运行的 再get 出来就是 这个效果， 直接写成这样的也毫无问题
+ 
