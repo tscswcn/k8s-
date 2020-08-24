@@ -1,0 +1,10 @@
+k8s 版本 不一样， kubectl run 出来的 还不一样
+V1.16.3
+kubectl run nginx4 --image=nginx
+kubectl run --generator=deployment/apps.v1 is DEPRECATED and will be removed in a future version. Use kubectl run --generator=run-pod/v1 or kubectl create instead.
+deployment.apps/nginx4 created
+
+V1.18
+$ kubectl run --generator=deployment/apps.v1 nginx2 --image=nginx -n pro-test
+Flag --generator has been deprecated, has no effect and will be removed in the future.
+pod/nginx2 created
