@@ -18,3 +18,60 @@ The tools/cache package is useful for writing controllers.
 and Ihave　Seen　k8sclient fabric8客户端
 
 what is 　k8sclient fabric8 回头 补充了解下
+
+我们来仔细看下 dynamicinformer的接口
+
+package dynamicinformer
+
+import (
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/client-go/informers"
+)
+
+// DynamicSharedInformerFactory provides access to a shared informer and lister for dynamic client
+type DynamicSharedInformerFactory interface {
+	Start(stopCh <-chan struct{})
+	ForResource(gvr schema.GroupVersionResource) informers.GenericInformer
+	WaitForCacheSync(stopCh <-chan struct{}) map[schema.GroupVersionResource]bool
+}
+
+// TweakListOptionsFunc defines the signature of a helper function
+// that wants to provide more listing options to API
+type TweakListOptionsFunc func(*metav1.ListOptions)
+
+来看看informer.go 
+
+
+var _ DynamicSharedInformerFactory = &dynamicSharedInformerFactory{}
+
+func (f *dynamicSharedInformerFactory) ForResource(gvr schema.GroupVersionResource) informers.GenericInformer {
+	f.lock.Lock()
+	defer f.lock.Unlock()
+
+	key := gvr
+	informer, exists := f.informers[key]
+	if exists {
+		return informer
+	}
+
+	informer = NewFilteredDynamicInformer(f.client, gvr, f.namespace, f.defaultResync, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+	f.informers[key] = informer
+
+	return informer
+}
+
+// Start initializes all requested informers.
+func (f *dynamicSharedInformerFactory) Start(stopCh <-chan struct{}) {
+	f.lock.Lock()
+	defer f.lock.Unlock()
+
+	for informerType, informer := range f.informers {
+		if !f.startedInformers[informerType] {
+			go informer.Informer().Run(stopCh)
+			f.startedInformers[informerType] = true
+		}
+	}
+}
+
+待补充
