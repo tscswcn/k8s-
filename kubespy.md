@@ -3,5 +3,10 @@
 这个时候我们可以利用
 kubespy
 
+ curl -so kubectl-spy https://raw.githubusercontent.com/huazhihao/kubespy/master/kubespy
+ sudo install kubectl-spy /usr/local/bin/
 
+然后 可以
+kubectl spy POD [-c CONTAINER] [--spy-image SPY_IMAGE]
 
+可以利用 这样1个 image netshoot，有很多现成的 工具
